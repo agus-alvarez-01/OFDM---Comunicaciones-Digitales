@@ -7,6 +7,9 @@ Básicamente, en lugar de enviar los datos en una sola portadora, OFDM divide la
 
 Uno de los elementos clave de la implementación de OFDM es el uso de la transformada rápida de Fourier (FFT) y su inversa (IFFT), que permiten una conversión eficaz de la señal entre los dominios de la frecuencia y el tiempo.
 
+---
+## USOS, VENTAJAS, ETC
+---
 # Transmisor OFDM
 
 La información que se quiere transmitir es una secuencia binaria.
@@ -33,7 +36,26 @@ Donde:
 - Cada término exponencial representa una subportadora ortogonal.
 
 ## Garantía de Ortogonalidad
-La ortogonalidad entre subportadoras se garantiza cuando el espaciamiento en frecuencia cumple $\Delta f=1/T$
+Si definimos dos vectores complejos $\phi_k$ y $\phi_m$, la ortogonalidad se da cuando al conjugar uno y calcular el producto interno entre ellos es igual a 0,  $\langle \phi_k , \phi_m^\rangle = 0$.
+
+Por lo tanto cada subportadora es ortogonal entre si, si se cumple que para:
+$$
+\langle \phi_k[n] , \phi_m[n]\rangle = \sum_{n=0}^{N-1} e^{j 2\pi \frac{kn}{N}}*e^{-j 2\pi \frac{mn}{N}}= \sum_{n=0}^{N-1}e^{j 2\pi (k-m)\frac{n}{N}} = \ 0 \ para \ k \neq m.
+$$
+
+Si definimos $r=e^{j 2\pi \frac{(k-m)}{N}}$, y reemplazamos en la sumatoria, obtenemos una serie geométrica compleja $S$.
+$$
+S = \sum_{n=0}^{N-1}r^n = \frac{1-r^N }{1-r} \ si \ r \neq 1
+$$
+Para cumplir con la condición de que $\langle \phi_k[n] , \phi_m[n]\rangle = 0$, $\ r^N$ debe ser 1.
+$$
+r^N = (e^{j 2\pi \frac{(k-m)}{N}})^N = e^{j 2\pi(k-m)}
+$$
+Como $k$ y $m$ son números enteros $\to \ e^{j 2\pi(k-m)} = 1$.
+
+<!----De más?---->
+La ortogonalidad entre subportadoras se garantiza cuando el espaciamiento en frecuencia cumple $\Delta f=1/T$.
+
 
 ---
 ---
@@ -60,6 +82,7 @@ La ortogonalidad entre subportadoras se garantiza cuando el espaciamiento en fre
 
 
 # Prefijo ciclico 
+Incluir video de valencia
 ---
 ---
 ---

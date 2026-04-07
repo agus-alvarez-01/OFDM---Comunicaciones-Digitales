@@ -56,8 +56,42 @@ Como $k$ y $m$ son números enteros $\to \ e^{j 2\pi(k-m)} = 1$.
 <!----De más?---->
 La ortogonalidad entre subportadoras se garantiza cuando el espaciamiento en frecuencia cumple $\Delta f=1/T$.
 
+---
+Incluir video de valencia
+El prefijo cíclico es para los símbolos OFDM, no para cada símbolo QAM
+---
+## Prefijo Cíclico  
+En un canal con múltiple trayecto, la señal transmitida sufre retardos debido a reflexiones.
+Esto produce interferencia entre símbolos consecutivos (ISI) y puede romper la ortogonalidad entre subportadoras.
+Para evitar este problema, se inserta un prefijo cíclico (CP), que consiste en copiar las últimas muestras del símbolo OFDM y añadirlos al inicio del mismo.
+
+#### ¿Cómo determino la cantidad de muestras para el $CP$?
+El CP debe compensar el máximo retardo entre el camino directo y el camino más tardío.
+Esto es la **dispersión del canal**.
+La señal recibida es la convolución del símbolo transmitido y la respuesta al impulso del canal.
+$$
+r[n] = s[n]*h[n]
+$$
+La dispersión del canal es la longitud de $h[n] \ (L_h)$, y la longitud de $r[n]$ es $N+L_h-1$.
+
+Por lo tanto la longitud (cantidad de muestras) de $CP$ tiene que ser:
+$$
+L_{CP} \geq L_h-1
+$$ 
+
+### Obtención de $h[n]$
 
 ---
+---
+---
+
+hace que la señal recibida 
+La dispersión del canal hace que la señal recibida  
+
+Al transmitir los símbolos OFDM existe un problema de "multiple trayecto", la recepción de los símbolos es multiple, y no necesariamente es directa desde el transmisor, sino también desde reflexiones. 
+Esto en la recepción de los símbolos genera interferencia dentro de la misma portadora, porque los símbolos se empiezan a solapar.
+Para evitar la interferencia se inserta en el símbolo un prefijo cíclico, que es una copia de los últimos datos del símbolo añadidos al principio del símbolo.
+
 ---
 ---
 ---
@@ -72,42 +106,6 @@ Donde:
 - $N$ = número total de subportadoras
 - $T$ = duración del símbolo OFDM
 - Cada término exponencial representa una subportadora ortogonal
-
-## Garantia de Ortogonalidad
-La ortogonalidad entre subportadoras se garantiza cuando el espaciamiento en frecuencia cumple $\Delta f=1/T$
-
-
-
-
-
-
-# Prefijo ciclico 
-Incluir video de valencia
----
----
----
----
-
-$$
-s[n] = \sum_{k=0}^{N-1} X_k \, e^{j 2\pi \frac{kn}{N}}
-$$
-
-Para $n=0,1,2,...,N-1$
-
-Donde:
-- $X[k]$ son los símbolos complejos asignados a cada subportadora.
-- Cada término exponencial representa una subportadora ortogonal.
-<!-- Corroborar está parte, no está bien explicado quizas -->
-- La ortogonalidad entre subportadoras se garantiza cuando el espaciamiento en frecuencia cumple $\Delta f=1/T$, donde $T$ es la duración del símbolo OFDM.
-
-De esta forma, se obtiene una señal OFDM que transmite múltiples símbolos en paralelo con alta eficiencia espectral.
-
-
-
-
-## Garantia de Ortogonalidad
-La ortogonalidad entre subportadoras se garantiza cuando el espaciamiento en frecuencia cumple $\Delta f=1/T$, donde $T$ es la duración del símbolo OFDM.
-
 
 
 

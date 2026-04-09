@@ -14,13 +14,12 @@ Se utiliza en los sistemas modernos de comunicaciones digitales de banda ancha, 
 
 # Transmisor OFDM
 
-La información que se quiere transmitir es una secuencia binaria.
-La agrupación de estos binarios forman símbolos, que luego son modulados digitalmente, por ejemplo en modulación **QPSK, QAM16, QAM64, etc**.
-Al usar esta modulación los símbolos quedan mapeados como números complejos, obteniendo así una secuencia de **símbolos complejos**.
+La información que se quiere transmitir es una secuencia de bits.
+La agrupación de estos bits forman símbolos, que luego son modulados digitalmente, por ejemplo en modulación **QPSK, QAM16, QAM64, etc**.
+Al usar estas modulaciones los símbolos quedan mapeados como números complejos, obteniendo así una secuencia de **símbolos complejos**.
 
 ## Símbolos Complejos
 Los símbolos complejos resultantes se asignan a las distintas subportadoras en el dominio de la frecuencia. La **IFFT** permite transformar esta representación en frecuencia al dominio temporal para su transmisión física. 
-<!--Falta Símbolos OFDM y Fc antes de pasar al dominio temporal-->
 
 ## Señal OFDM en tiempo discreto
 Para transmitir los símbolos en paralelo sobre múltiples subportadoras ortogonales, la IFFT genera en el dominio temporal la combinación lineal de exponenciales complejas ortogonales.
@@ -43,7 +42,7 @@ Donde:
 ## Garantía de Ortogonalidad
 Si definimos dos vectores complejos $\phi_k$ y $\phi_m$, la ortogonalidad se da cuando al calcular el producto interno entre ellos es igual a 0,  $\langle \phi_k , \phi_m\rangle = 0$.
 
-Por lo tanto cada subportadora es ortogonal entre si, si se cumple que para:
+Por lo tanto cada subportadora es ortogonal entre sí, si se cumple que para:
 
 $$
 \langle \phi_k[n] , \phi_m[n]\rangle = \sum_{n=0}^{N-1} e^{j 2\pi \frac{kn}{N}}.e^{-j 2\pi \frac{mn}{N}}= \sum_{n=0}^{N-1}e^{j 2\pi (k-m)\frac{n}{N}} = \ 0 \ para \ k \neq m.
@@ -78,21 +77,21 @@ En el dominio del tiempo la señal recibida es la convolución del símbolo tran
 $$
 r[n] = x[n]*h[n]
 $$
-La dispersión del canal es la longitud de $h[n] \ (L_h)$, y la longitud de $r[n]$ es $N+L_h-1$.
+La dispersión del canal es la longitud de $h[n]$ $(L_h)$, y la longitud de $r[n]$ es $N+L_h-1$.
 
 Por lo tanto la longitud de $CP$ tiene que ser:
 $$
 L_{CP} \geq L_h-1
 $$ 
-Para no romper la ortogonalidad de las subportadoras y no que no haya ISI.
+Para no romper la ortogonalidad de las subportadoras y evitar ISI.
 <!---->
-Para señales como WiFi, LTE, Televisión digital, el $CP$ esta estandarizado.
+Para señales como WiFi, LTE, Televisión digital, el $CP$ está estandarizado.
 
 ---
 ## Transmisión por antena
 Una vez obtenido el símbolo OFDM $x[n]$, la señal en tiempo discreto pasa por un conversor digital-analógico (DAC) para transformarse en una señal analógica continua $x(t)$.
 
-Como $x[n]$ es una banda base compleja discreta, $x(t)$ resulta una banda base compleja continua, y se modula a una frecuencia de carry $f_c$ de alta frecuencia, produciendo un corrimiento espectral, para luego transmitir por antena.
+Como $x[n]$ es una banda base compleja discreta, $x(t)$ resulta una banda base compleja continua, y se modula a una frecuencia de portadora $f_c$ de alta frecuencia, produciendo un corrimiento espectral, para luego transmitir por antena.
 
 #### Señal Resultante
 Si $x(t) = I(t)+jQ(t)$, la portadora es $e^{j 2\pi f_c t}$, la señal resultante es: 
@@ -110,6 +109,7 @@ $$
 ![transmisor_ideal](imagen-transmisor.png)
 ---
 
+<!--tener en claro que pasa con la energía, en el pasaje de tiempo a frecuencia-->
 $$
 s(t) = \sum_{k=0}^{N-1} X[k] \, e^{j 2\pi f[k] t}, \quad 0 \le t < T
 $$
@@ -135,36 +135,12 @@ https://www.tme.com/mx/es/news/library-articles/glossary/page/69328/ofdm-multipl
 
 
 
-## ¿Cómo es matemáticamente?
-
-Matemáticamente, la señal OFDM en el dominio temporal es: 
-
-$$
-s(t) = \sum_{k=0}^{N-1} X_k \, e^{j 2\pi f_k t}, \quad 0 \le t < T
-$$
-
-Donde:
-- $𝑋_𝑘$ = símbolo complejo en la subportadora $k$
-- $𝑓_𝑘$ = frecuencia de la subportadora
-- $N$ = número total de subportadoras
-- $T$ = duración del símbolo OFDM
-
-### ¿Cómo garantizamos ortogonalidad?
-
-Para garantizar ortogonalidad $𝑓_𝑘$ es equivalente a $k.\Delta f$, donde $\Delta f=1/T$. Entonces:
-
-$$
-s(t) = \sum_{k=0}^{N-1} X_k \, e^{j 2\pi k \frac{t}{T}}
-$$
-
-
 
 ¿a que se refiere con que sea de alta y baja velocidad?
 ¿Para qué sirve? ¿Qué ventaja tiene al usarla?
 ¿Qué representa la fórmula matemática?
-¿Qué decía evangelista sobre la OFDM? 
 
-https://es.wikipedia.org/wiki/Diagrama_de_constelaci%C3%B3n --> explicación para la constelación
+
 
 ### Obtención de $h[n]$
 Otro problema al recibir es la adición de adición de $h[n]$ a la señal transmitida.

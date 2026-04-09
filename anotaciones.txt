@@ -1,0 +1,47 @@
+Buscar un paper, o basarse en una referencia. -> buscar las bases de los videos
+de youtube
+Hacer por puntos cada explicación. Paso a paso las cosas importantes.
+Simular preguntas de lo que puse en el paper.
+Se explica punto por punto y puede pedir desarrollo en pizarron.	
+
+Buscar expresión matematica generica de OFDM (una sumatoria y desglosarla)
+
+Estudiar convolución, que representa, como es, que pasa con la energia,etc
+
+
+preguntas:
+¿por que hay que conjugar un vector al hacer el producto punto complejo?
+
+Ortogonalidad:
+
+En un Tiempo n=0 tenes 4 subportadoras, con k=0,1,2,3
+
+1/4
+Xk=x[3]e^-j2pik3/4
+x[3]=1/4*(3+j)
+k=0
+--> 1/4*(3+j)*e⁰
+k=1
+-->1/4*(3+j)*e^-j2pi3/4= 1/4*(3+j)*j
+k=2
+-->1/4*(3+j)*e^-jpi3= 1/4*(3+j)*-1
+k=3
+-->1/4*(3+j)*e^-jpi9/2= 1/4*(3+j)*-j
+
+M-QAM, es modulación en amplitud, de una combinación de senos y cosenos
+En un tiempo T, QAM se ve como una señal sinusoidal con una cierta fase y amplitud.
+En un tiempo 2T, QAM se ve como una señal sinusoidal con otra fase y otra amplitud.
+
+FFT -> me dice como se distribuye la energia en frecuencia de una señal en el tiempo 
+X(j2pif)-> x(t)
+<!--tener en claro que pasa con la energía, en el pasaje de tiempo a frecuencia-->
+
+
+
+Resultado de primera muestra:
+- Tener en cuenta el libro, el diagrama de ->bits->encoder->waveformed
+- cambiar IFFT por IDFT
+- trabajar en modulacion QPSK y poder cambiar a QAM16 si se puede
+- Recordar que el generador de bits se multiplo entero de la modulacion 
+- implementar codigo en banda base, y en codiciones ideales, sin ruido
+- HACER BER (tasa de error de bits), cuando genere el receptor.

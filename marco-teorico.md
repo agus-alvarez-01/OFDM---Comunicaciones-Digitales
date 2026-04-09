@@ -62,9 +62,6 @@ Como $k$ y $m$ son números enteros $\to \ e^{j 2\pi(k-m)} = 1$.
 La ortogonalidad entre subportadoras se garantiza cuando el espaciamiento en frecuencia cumple $\Delta f=1/T$.
 
 ---
-Incluir video de valencia
-El prefijo cíclico es para los símbolos OFDM, no para cada símbolo QAM
----
 ## Prefijo Cíclico  
 En un canal con múltiple trayecto, la señal transmitida sufre retardos debido a reflexiones.
 Esto produce interferencia entre símbolos OFDM consecutivos (ISI) y puede romper la ortogonalidad entre subportadoras.
@@ -84,7 +81,7 @@ $$
 L_{CP} \geq L_h-1
 $$ 
 Para no romper la ortogonalidad de las subportadoras y evitar ISI.
-<!---->
+
 Para señales como WiFi, LTE, Televisión digital, el $CP$ está estandarizado.
 
 ---
@@ -109,41 +106,4 @@ $$
 ![transmisor_ideal](imagen-transmisor.png)
 ---
 
-<!--tener en claro que pasa con la energía, en el pasaje de tiempo a frecuencia-->
-$$
-s(t) = \sum_{k=0}^{N-1} X[k] \, e^{j 2\pi f[k] t}, \quad 0 \le t < T
-$$
 
-Donde:
-- $X[k]$ = símbolo complejo en la subportadora $k$
-- $f[k]$ = frecuencia de la subportadora
-- $N$ = número total de subportadoras
-- $T$ = duración del símbolo OFDM
-- Cada término exponencial representa una subportadora ortogonal
-
-
-
-.....................................
-
----
-https://www.tme.com/mx/es/news/library-articles/glossary/page/69328/ofdm-multiplexacion-por-division-de-frecuencias-ortogonales-definicion/
-
-
-
-1/N --> escala la potencia 
-
-
-
-
-
-¿a que se refiere con que sea de alta y baja velocidad?
-¿Para qué sirve? ¿Qué ventaja tiene al usarla?
-¿Qué representa la fórmula matemática?
-
-
-
-### Obtención de $h[n]$
-Otro problema al recibir es la adición de adición de $h[n]$ a la señal transmitida.
-En el dominio de la frecuencia la convolución se transforma en el producto de la señales. 
-Para saber como es $h[n]$ se envían símbolos conocidos y se puede calcular.
-Una vez sabiendo $h[n]$ se conoce su longitud $L_h$ y a la recepción de símbolos se la multiplica por su inversa $h^{-1}[n]$ para limpiar el símbolo.

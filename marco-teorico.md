@@ -5,7 +5,7 @@ OFDM (Multiplexación por División de Frecuencia Ortogonal) es un método de mo
 
 Básicamente, en lugar de enviar los datos en una sola portadora, OFDM divide la señal en muchas señales más pequeñas y las transmite simultáneamente, permitiendo mayor resistencia a la interferencia y a la dispersión en el canal.
 
-Uno de los elementos clave de la implementación de OFDM es el uso de la transformada rápida de Fourier (FFT) y su inversa (IFFT), que permiten una conversión eficaz de la señal entre los dominios de la frecuencia y el tiempo.
+Uno de los elementos clave de la implementación de OFDM es el uso de la transformada discreta de Fourier (DFT) y su inversa (IDFT), que permiten una conversión eficaz de la señal entre los dominios de la frecuencia y el tiempo.
 
 ### ¿En qué se usa OFDM?
 Se utiliza en los sistemas modernos de comunicaciones digitales de banda ancha, especialmente en entornos con multipropagación. Por ejemplo en comunicaciones WiFi, Redes celulares 4G y 5G, Televisión digital terrestre, etc.
@@ -19,10 +19,10 @@ La agrupación de estos bits forman símbolos, que luego son modulados digitalme
 Al usar estas modulaciones los símbolos quedan mapeados como números complejos, obteniendo así una secuencia de **símbolos complejos**.
 
 ## Símbolos Complejos
-Los símbolos complejos resultantes se asignan a las distintas subportadoras en el dominio de la frecuencia. La **IFFT** permite transformar esta representación en frecuencia al dominio temporal para su transmisión física. 
+Los símbolos complejos resultantes se asignan a las distintas subportadoras en el dominio de la frecuencia. La **IDFT** permite transformar esta representación en frecuencia al dominio temporal para su transmisión física. 
 
 ## Señal OFDM en tiempo discreto
-Para transmitir los símbolos en paralelo sobre múltiples subportadoras ortogonales, la IFFT genera en el dominio temporal la combinación lineal de exponenciales complejas ortogonales.
+Para transmitir los símbolos en paralelo sobre múltiples subportadoras ortogonales, la IDFT genera en el dominio temporal la combinación lineal de exponenciales complejas ortogonales.
 Para implementarlo, se generan $N$ muestras discretas que constituyen un símbolo OFDM en el dominio temporal.
 Podemos definir $T$ como el periodo de cada símbolo OFDM y $T_s$ como el periodo de muestreo $(T_s=T/N)$.
 Con un paso de $t=nT_s$ ($t=nT/N$), la señal OFDM se determina como:
@@ -58,7 +58,6 @@ r^N = (e^{j 2\pi \frac{(k-m)}{N}})^N = e^{j 2\pi(k-m)}
 $$
 Como $k$ y $m$ son números enteros $\to \ e^{j 2\pi(k-m)} = 1$.
 
-<!----De más?---->
 La ortogonalidad entre subportadoras se garantiza cuando el espaciamiento en frecuencia cumple $\Delta f=1/T$.
 
 ---

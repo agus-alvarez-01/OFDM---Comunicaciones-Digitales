@@ -41,7 +41,14 @@ X(j2pif)-> x(t)
 Resultado de primera muestra:
 - Tener en cuenta el libro, el diagrama de ->bits->encoder->waveformed
 - cambiar IFFT por IDFT
+- poner sección de encoder y waveformed
 - trabajar en modulacion QPSK y poder cambiar a QAM16 si se puede
 - Recordar que el generador de bits se multiplo entero de la modulacion 
 - implementar codigo en banda base, y en codiciones ideales, sin ruido
 - HACER BER (tasa de error de bits), cuando genere el receptor.
+
+preguntas:
+- que es la "k" en las funcion e^j2pikn/N? 
+Es el indice de las subportadoras
+- que es la "N" en las funcion e^j2pikn/N? 
+Es la cantidad de muestras de un símbolo OFDM

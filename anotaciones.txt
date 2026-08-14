@@ -52,3 +52,7 @@ preguntas:
 Es el indice de las subportadoras
 - que es la "N" en las funcion e^j2pikn/N? 
 Es la cantidad de muestras de un símbolo OFDM
+
+
+------------
+"Además, como trabajamos en banda base y canal ideal, no hace falta incluir sincronización, ecualización ni corrección de frecuencia/fase."

@@ -28,7 +28,7 @@ Podemos definir $T$ como el periodo de cada símbolo OFDM y $T_s$ como el period
 Con un paso de $t=nT_s$ ($t=nT/N$), la señal OFDM se determina como:
 
 $$
-x[n] = \sum_{k=0}^{N-1} X[k] \, e^{j 2\pi \frac{kn}{N}}
+x[n] = \frac{1}{N} \sum_{k=0}^{N-1} X[k] \, e^{j 2\pi \frac{kn}{N}}
 $$
 
 Para $n=0,1,2,...,N-1$
@@ -36,6 +36,7 @@ Para $n=0,1,2,...,N-1$
 Donde:
 - $X[k]$ son los símbolos complejos asignados a cada subportadora.
 - Cada término exponencial representa una subportadora ortogonal.
+- $\frac{1}{N}$ es el factor de normalización de la IDFT, necesario para que la DFT aplicada en el receptor permita recuperar los símbolos originales $X[k]$. 
 - Cada muestra $x[n]$ es una combinación de todas las subportadoras.
 - El bloque completo de $N$ muestras forma un **símbolo OFDM**
 

@@ -72,11 +72,10 @@ La longitud del CP debe compensar el máximo retardo entre el camino directo y e
 Esto es la **dispersión del canal**.
 En el dominio del tiempo la señal recibida es la convolución del símbolo transmitido y la respuesta al impulso del canal.
 $$
-r[n] = x[n]*h[n]
+r[n] = x[n] \circledast h[n]
 $$
-La dispersión del canal es la longitud de $h[n]$ $(L_h)$, y la longitud de $r[n]$ es $N+L_h-1$.
 
-Por lo tanto la longitud de $CP$ tiene que ser:
+Si la respuesta al impulso del canal $h[n]$ tiene una longitud de $L_h$ muestras, el máximo retardo introducido por el canal es $(L_h-1)$ muestras. Por lo tanto, se debe cumplir que la longitud de $CP$ tiene que ser:
 $$
 L_{CP} \geq L_h-1
 $$ 
@@ -101,9 +100,6 @@ $$
 s(t)= I(t)cos(2\pi f_c t)-Q(t)sen(2\pi f_c t)
 $$
 
+![transmisor_ideal](../img/imagen-transmisor.png)
 
-
-![transmisor_ideal](imagen-transmisor.png)
 ---
-
-

@@ -267,17 +267,12 @@ plt.show()
 #-------------------------------------------------------------------#
 
 # CANAL AWGN
-
 def awgn_channel(tx_signal, SNR_dB):
     """
-    Canal AWGN (Additive White Gaussian Noise).
-
+    Canal AWGN 
     Agrega ruido blanco gaussiano a la señal transmitida.
-
-    SNR_dB:
-        Relación señal a ruido expresada en decibeles.
+    SNR_dB: Relación señal a ruido expresada en decibeles.
     """
-
     # Potencia promedio de la señal
     signal_power = np.mean(np.abs(tx_signal)**2)
 
@@ -301,34 +296,26 @@ def awgn_channel(tx_signal, SNR_dB):
 #-------------------------------------------------------------------#
 
 # RECEPCIÓN
-
 # Canal AWGN
 rx_signal = awgn_channel(tx_signal, SNR_dB)
 
 #-------------------------------------------------------------------#
 
 # Visualización de la señal recibida
-
 plt.figure(figsize=(12,4))
-
 plt.plot(
     np.real(rx_signal[:400]),
     label="Parte Real (I)"
 )
-
 plt.plot(
     np.imag(rx_signal[:400]),
     label="Parte Imaginaria (Q)"
 )
-
 plt.title(f"Señal OFDM Recibida - SNR = {SNR_dB} dB")
-
 plt.xlabel("Muestras")
 plt.ylabel("Amplitud")
-
 plt.grid(True)
 plt.legend()
-
 plt.show()
 
 #-------------------------------------------------------------------#
@@ -383,21 +370,16 @@ print("Cantidad de símbolos recibidos:", len(symbols_rx))
 # DEMODULACIÓN QPSK
 
 bits_rx = qpsk_demodulator(symbols_rx)
-
 print("Bits recibidos:", len(bits_rx))
 
 #-------------------------------------------------------------------#
 
 # BIT ERROR RATE
-
 bit_errors = np.sum(bits_tx != bits_rx)
-
 ber = bit_errors / len(bits_tx)
-
 print("=" * 40)
 print("RESULTADOS")
 print("=" * 40)
-
 print(f"SNR               : {SNR_dB} dB")
 print(f"Bits transmitidos : {len(bits_tx)}")
 print(f"Bits erróneos     : {bit_errors}")
@@ -406,24 +388,17 @@ print(f"BER               : {ber:.6e}")
 #-------------------------------------------------------------------#
 
 # Constelación recibida
-
 plt.figure(figsize=(6,6))
-
 plt.scatter(
     symbols_rx.real,
     symbols_rx.imag,
-    s=8
+    s=4
 )
-
 plt.grid(True)
-
 plt.xlabel("In-Phase (I)")
 plt.ylabel("Quadrature (Q)")
-
 plt.title(f"Constelación QPSK Recibida - SNR = {SNR_dB} dB")
-
 plt.axis("equal")
-
 plt.show()
 
 #-------------------------------------------------------------------#

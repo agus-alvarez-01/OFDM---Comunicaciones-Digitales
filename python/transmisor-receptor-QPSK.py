@@ -104,54 +104,27 @@ def qpsk_demodulator(symbols):
     return np.array(bits)
 
 #-------------------------------------------------------------------#
-
 # FUNCIONES OFDM
-
 def serial_to_parallel(symbols, N):
     """
     Convierte un vector de símbolos en una matriz.
-
     Cada fila representa un símbolo OFDM.
     Cada columna representa una subportadora.
-
-            Serie
-
-    x1 x2 x3 ... x64 x65 ...
-
-            ↓
-
-    | x1  x2 ... x64 |
-    | x65 .........  |
-    | ...            |
-
     """
-
     return symbols.reshape((-1, N))
-
 
 def parallel_to_serial(matrix):
     """
     Convierte una matriz nuevamente en un vector.
     """
-
     return matrix.reshape(-1)
-
 
 def add_cp(ofdm_symbol, CP):
     """
     Agrega el prefijo cíclico.
-
-    OFDM:
-    |---------------------------|
-          64 muestras
-
-    CP:
-    |----|----------------------|
-      16       64
     """
     cp = ofdm_symbol[-CP:]
     return np.concatenate((cp, ofdm_symbol))
-
 
 def remove_cp(ofdm_symbol, CP):
     """
@@ -172,10 +145,8 @@ def ofdm_transmitter(symbols, N, CP):
         Agregar CP
         Paralelo → Serie
     """
-
     # Serie -> Paralelo
     symbols_matrix = serial_to_parallel(symbols, N)
-
     tx_signal = []
 
     # Procesar cada símbolo OFDM
@@ -194,83 +165,63 @@ def ofdm_transmitter(symbols, N, CP):
 #-------------------------------------------------------------------#
 
 # MODULACIÓN QPSK
-
 symbols_tx = qpsk_modulator(bits_tx)
-
 print("Cantidad de símbolos QPSK:", len(symbols_tx))
 
 #-------------------------------------------------------------------#
 
 # OFDM
-
 tx_signal = ofdm_transmitter(symbols_tx, N, CP)
-
 print("Longitud de la señal transmitida:", len(tx_signal))
 
 #-------------------------------------------------------------------#
 
 # Visualización de la señal transmitida
-
 plt.figure(figsize=(12,4))
-
 plt.plot(
     np.real(tx_signal[:400]),
     label="Parte Real (I)"
 )
-
 plt.plot(
     np.imag(tx_signal[:400]),
     label="Parte Imaginaria (Q)"
 )
-
 plt.title("Señal OFDM en Banda Base")
-
 plt.xlabel("Muestras")
 plt.ylabel("Amplitud")
-
 plt.grid(True)
 plt.legend()
-
 #plt.show()
 plt.show(block=False)
 #-------------------------------------------------------------------#
 
 # Constelación transmitida
-
 plt.figure(figsize=(6,6))
 
 plt.scatter(
     symbols_tx.real,
     symbols_tx.imag,
-    s=8
+    s=4
 )
-
 plt.grid(True)
-
 plt.xlabel("In-Phase (I)")
 plt.ylabel("Quadrature (Q)")
-
 plt.title("Constelación QPSK Transmitida")
-
 plt.axis("equal")
-
 #plt.show()
 plt.show(block=False)
 #-------------------------------------------------------------------#
 
 # CANAL
-
 def ideal_channel(tx_signal):
     """
-    Canal ideal.
-    No modifica la señal transmitida.
+    Canal ideal. No modifica la señal transmitida.
     """
     return tx_signal.copy()
 
 #-------------------------------------------------------------------#
 
 # RECEPTOR OFDM
-
 def ofdm_receiver(rx_signal, N, CP):
     """
     Receptor OFDM.
@@ -281,13 +232,10 @@ def ofdm_receiver(rx_signal, N, CP):
         Paralelo -> Serie
     """
     symbol_length = N + CP
-
     n_symbols = len(rx_signal) // symbol_length
-
     received_symbols = []
 
     for i in range(n_symbols):
-
         # Extraer un símbolo OFDM
         start = i * symbol_length
         end = start + symbol_length
@@ -307,35 +255,26 @@ def ofdm_receiver(rx_signal, N, CP):
 #-------------------------------------------------------------------#
 
 # RECEPCIÓN
-
 # Canal
 rx_signal = ideal_channel(tx_signal)
-
 # Receptor OFDM
 symbols_rx = ofdm_receiver(rx_signal, N, CP)
-
 print("Cantidad de símbolos recibidos:", len(symbols_rx))
 
 #-------------------------------------------------------------------#
 
 # DEMODULACIÓN QPSK
-
 bits_rx = qpsk_demodulator(symbols_rx)
-
 print("Bits recibidos:", len(bits_rx))
 
 #-------------------------------------------------------------------#
 
 # BIT ERROR RATE
-
 bit_errors = np.sum(bits_tx != bits_rx)
-
 ber = bit_errors / len(bits_tx)
-
 print("=" * 40)
 print("RESULTADOS")
 print("=" * 40)
-
 print(f"Bits transmitidos : {len(bits_tx)}")
 print(f"Bits erróneos     : {bit_errors}")
 print(f"BER               : {ber:.6e}")
@@ -343,23 +282,115 @@ print(f"BER               : {ber:.6e}")
 #-------------------------------------------------------------------#
 
 # Constelación recibida
-
 plt.figure(figsize=(6,6))
-
 plt.scatter(
     symbols_rx.real,
     symbols_rx.imag,
-    s=8
+    s=4
 )
-
 plt.grid(True)
-
 plt.xlabel("In-Phase (I)")
 plt.ylabel("Quadrature (Q)")
-
 plt.title("Constelación QPSK Recibida")
-
 plt.axis("equal")
+#plt.show()
+plt.show(block=False)
 
+#-------------------------------------------------------------------#
+
+# CANAL AWGN
+def awgn_channel(tx_signal, SNR_dB):
+    """
+    Canal AWGN 
+    Agrega ruido blanco gaussiano a la señal transmitida.
+    """
+    # Potencia promedio de la señal
+    signal_power = np.mean(np.abs(tx_signal)**2)
+
+    # Conversión de SNR de dB a escala lineal
+    SNR_linear = 10**(SNR_dB / 10)
+
+    # Potencia del ruido
+    noise_power = signal_power / SNR_linear
+
+    # Ruido gaussiano complejo
+    noise = np.sqrt(noise_power / 2) * (
+        np.random.randn(len(tx_signal))
+        + 1j * np.random.randn(len(tx_signal))
+    )
+
+    # Señal recibida
+    rx_signal = tx_signal + noise
+
+    return rx_signal
+
+#-------------------------------------------------------------------#
+
+# RECEPCIÓN
+# Canal AWGN
+SNR_dB = 10     # Relación señal a ruido en dB
+rx_signal = awgn_channel(tx_signal, SNR_dB)
+
+#-------------------------------------------------------------------#
+
+# Visualización de la señal recibida
+plt.figure(figsize=(12,4))
+plt.plot(
+    np.real(rx_signal[:400]),
+    label="Parte Real (I)"
+)
+plt.plot(
+    np.imag(rx_signal[:400]),
+    label="Parte Imaginaria (Q)"
+)
+plt.title(f"Señal OFDM Recibida - SNR = {SNR_dB} dB")
+plt.xlabel("Muestras")
+plt.ylabel("Amplitud")
+plt.grid(True)
+plt.legend()
+#plt.show()
+plt.show(block=False)
+
+#-------------------------------------------------------------------#
+
+# RECEPTOR OFDM con AWGN
+symbols_rx = ofdm_receiver(rx_signal, N, CP)
+print("Cantidad de símbolos recibidos:", len(symbols_rx))
+
+#-------------------------------------------------------------------#
+
+# DEMODULACIÓN QPSK con AWGN
+
+bits_rx = qpsk_demodulator(symbols_rx)
+print("Bits recibidos:", len(bits_rx))
+
+#-------------------------------------------------------------------#
+
+# BIT ERROR RATE con AWGN
+bit_errors = np.sum(bits_tx != bits_rx)
+ber = bit_errors / len(bits_tx)
+print("=" * 40)
+print("RESULTADOS")
+print("=" * 40)
+print(f"SNR               : {SNR_dB} dB")
+print(f"Bits transmitidos : {len(bits_tx)}")
+print(f"Bits erróneos     : {bit_errors}")
+print(f"BER               : {ber:.6e}")
+
+#-------------------------------------------------------------------#
+
+# Constelación recibida
+plt.figure(figsize=(6,6))
+plt.scatter(
+    symbols_rx.real,
+    symbols_rx.imag,
+    s=4
+)
+plt.grid(True)
+plt.xlabel("In-Phase (I)")
+plt.ylabel("Quadrature (Q)")
+plt.title(f"Constelación QPSK Recibida - SNR = {SNR_dB} dB")
+plt.axis("equal")
 plt.show()
+
 #-------------------------------------------------------------------#

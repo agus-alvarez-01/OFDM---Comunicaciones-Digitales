@@ -100,6 +100,10 @@ $$
 s(t)= I(t)cos(2\pi f_c t)-Q(t)sen(2\pi f_c t)
 $$
 
+---
+
+### Imagen ilustrativa:
+
 ![transmisor_ideal](../img/imagen-transmisor.png)
 
 ---

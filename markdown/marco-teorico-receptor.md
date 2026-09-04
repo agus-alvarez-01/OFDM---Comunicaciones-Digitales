@@ -69,10 +69,7 @@ En QPSK los símbolos recibidos se encuentran en cuatro posibles posiciones del 
 $$
 X[k] \in
 \left\{
-\frac{1+j}{\sqrt{2}},
-\frac{-1+j}{\sqrt{2}},
-\frac{-1-j}{\sqrt{2}},
-\frac{1-j}{\sqrt{2}}
+1+j, -1+j, -1-j, 1-j
 \right\}
 $$
 
@@ -80,9 +77,11 @@ Cada posición representa una combinación diferente de dos bits.
 
 El demodulador determina a qué símbolo de la constelación pertenece cada valor complejo recibido y asigna nuevamente la combinación de bits correspondiente.
 
-En QAM16 el procedimiento es equivalente, pero se dispone de 16 posibles símbolos, por lo que cada símbolo representa 4 bits.
-
 Finalmente, los grupos de bits obtenidos de cada símbolo se concatenan para formar nuevamente la secuencia de bits transmitida.
+
+---
+
+### Imagen ilustrativa:
 
 ![receptor_ideal](../img/imagen-receptor.png)
 

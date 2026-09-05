@@ -217,7 +217,7 @@ def ideal_channel(tx_signal):
     """
     Canal ideal. No modifica la señal transmitida.
     """
-    return tx_signal.copy()
+    return tx_signal
 
 #-------------------------------------------------------------------#
 

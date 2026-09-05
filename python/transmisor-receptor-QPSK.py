@@ -186,7 +186,7 @@ plt.plot(
     np.imag(tx_signal[:400]),
     label="Parte Imaginaria (Q)"
 )
-plt.title("Señal OFDM en Banda Base")
+plt.title("Señal OFDM en Banda Base - Transmitida")
 plt.xlabel("Muestras")
 plt.ylabel("Amplitud")
 plt.grid(True)
@@ -297,7 +297,13 @@ plt.axis("equal")
 plt.show(block=False)
 
 #-------------------------------------------------------------------#
+"""
+Para poder hacer análisis en el BER, se agrega ruido blanco gaussiano 
+en la transmición para ver como se comporta la recepción, simulando 
+un entorno más realista. 
 
+"""
+#-------------------------------------------------------------------#
 # CANAL AWGN
 def awgn_channel(tx_signal, SNR_dB):
     """
@@ -306,19 +312,15 @@ def awgn_channel(tx_signal, SNR_dB):
     """
     # Potencia promedio de la señal
     signal_power = np.mean(np.abs(tx_signal)**2)
-
     # Conversión de SNR de dB a escala lineal
     SNR_linear = 10**(SNR_dB / 10)
-
     # Potencia del ruido
     noise_power = signal_power / SNR_linear
-
     # Ruido gaussiano complejo
     noise = np.sqrt(noise_power / 2) * (
         np.random.randn(len(tx_signal))
         + 1j * np.random.randn(len(tx_signal))
     )
-
     # Señal recibida
     rx_signal = tx_signal + noise
 
@@ -360,7 +362,6 @@ print("Cantidad de símbolos recibidos:", len(symbols_rx))
 #-------------------------------------------------------------------#
 
 # DEMODULACIÓN QPSK con AWGN
-
 bits_rx = qpsk_demodulator(symbols_rx)
 print("Bits recibidos:", len(bits_rx))
 
